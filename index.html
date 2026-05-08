@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNSTA CUC - Sistema</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body, html { height: 100%; width: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+
+        .pantalla {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .activa { display: flex; flex-direction: column; align-items: center; }
+
+        /* PANTALLA 1: BIENVENIDA */
+        #pantalla-inicio {
+            background-image: url('./BIENVENIDO_3.png');
+        }
+
+        /* AJUSTE DEL BOTÓN INVISIBLE: Usamos posicionamiento absoluto */
+        .boton-invisible {
+            position: absolute;
+            bottom: 55px; /* Ajusta este número para subir o bajar el botón */
+            width: 380px;  /* Ajusta el ancho para que calce con tu imagen */
+            height: 110px; /* Ajusta el alto */
+            background: rgba(255, 255, 255, 0); /* 0 para que sea invisible */
+            border: 2px solid transparent; /* Cámbialo a 'red' para verlo mientras pruebas */
+            cursor: pointer;
+            border-radius: 60px;
+        }
+
+        /* PANTALLA 2: REGISTRO */
+        #pantalla-registro {
+            background-image: url('./PAGINA.png'); /* CAMBIA ESTO */
+            background-color: #003399; /* Respaldo */
+            justify-content: center;
+        }
+
+        /* PANTALLA 3: MENÚ */
+        #pantalla-menu {
+            background-image: url('./PAGINA.png'); /* CAMBIA ESTO */
+            background-color: #002266; /* Respaldo */
+            justify-content: center;
+        }
+
+        /* CONTENEDORES DE FORMULARIO */
+        .contenedor-translucido {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            width: 85%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        h2 { color: #003399; margin-bottom: 25px; }
+        input, select {
+            width: 100%; padding: 18px; margin: 10px 0;
+            font-size: 18px; border-radius: 12px; border: 1px solid #ccc;
+        }
+
+        .btn-accion {
+            background: #003399; color: white; padding: 18px;
+            width: 100%; border: none; border-radius: 12px;
+            font-weight: bold; cursor: pointer; font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA 1 -->
+    <div id="pantalla-inicio" class="pantalla activa">
+        <button class="boton-invisible" onclick="navegar('pantalla-registro')"></button>
+    </div>
+
+    <!-- PANTALLA 2 -->
+    <div id="pantalla-registro" class="pantalla">
+        <div class="contenedor-translucido">
+            <h2>Datos de Acceso</h2>
+            <input type="number" id="dni" placeholder="DNI" inputmode="numeric">
+            <input type="tel" id="cel" placeholder="Celular" inputmode="tel">
+            <button class="btn-accion" onclick="navegar('pantalla-menu')">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3 -->
+    <div id="pantalla-menu" class="pantalla">
+        <div class="contenedor-translucido">
+            <h2>Seleccione Trámite</h2>
+            <select id="opcion" onchange="enviar()">
+                <option value="">-- Elegir --</option>
+                <option value="Carreras">Información de carreras</option>
+                <option value="Inscripciones">Inscripciones</option>
+                <option value="Cursos">Información de cursos</option>
+                <option value="General">Consultas generales</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxM5Noe2-wl6T60ouIFmMl-aTG1KeP3TImoi7nxWNZMK_z_mDP163Mwsql3wvioWff0kQ/exec";
+
+        function navegar(id) {
+            document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+            document.getElementById(id).classList.add('activa');
+            if(id === 'pantalla-registro') {
+                setTimeout(() => document.getElementById('dni').focus(), 400);
+            }
+        }
+
+       async function enviar() {
+    const sel = document.getElementById('opcion').value;
+    if(!sel) return;
+
+    // Los datos que recolectamos
+    const datos = {
+        dni: document.getElementById('dni').value,
+        celular: document.getElementById('cel').value,
+        opcion: sel,
+        fecha: new Date().toLocaleString()
+    };
+
+    console.log("Enviando datos a:", URL_SCRIPT);
+
+    try {
+        // Usamos una técnica de "enviar y olvidar" para evitar el error de Fetch
+        fetch(URL_SCRIPT, {
+            method: 'POST',
+            mode: 'no-cors', // CRÍTICO: evita el error de CORS
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos)
+        });
+
+        alert("¡Registro enviado! Revisando base de datos...");
+        
+        // Reiniciamos la app después de un momento
+        setTimeout(() => { location.reload(); }, 1000);
+
+    } catch (error) {
+        alert("Error crítico: " + error.message);
+    }
+}
+    </script>
+</body>
+</html>
