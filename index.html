@@ -28,16 +28,30 @@
 
         /* AJUSTE DEL BOTÓN INVISIBLE: Usamos posicionamiento absoluto */
         .boton-invisible {
-            position: absolute;
-            bottom: 55px; /* Ajusta este número para subir o bajar el botón */
-            width: 380px;  /* Ajusta el ancho para que calce con tu imagen */
-            height: 110px; /* Ajusta el alto */
-            background: rgba(255, 255, 255, 0); /* 0 para que sea invisible */
-            border: 2px solid transparent; /* Cámbialo a 'red' para verlo mientras pruebas */
-            cursor: pointer;
-            border-radius: 60px;
-        }
+        position: absolute;
+        bottom: 12%; /* Usar porcentaje ayuda a que suba o baje según el alto del cel */
+        width: 70%; /* Se adapta al ancho del dispositivo */
+        max-width: 380px;
+        height: 12%; /* El alto también se vuelve flexible */
+        left: 50%;
+        transform: translateX(-50%); /* Esto lo mantiene siempre centrado horizontalmente */
+        background: rgba(255, 255, 255, 0); 
+        border: none;
+        cursor: pointer;
+    }
+    ```
 
+---
+
+### 3. Ajuste de Imágenes de Fondo
+Para que las fotos de fondo no se corten mal o se vean estiradas, asegúrate de tener estas propiedades en cada pantalla:
+
+```css
+.pantalla {
+    background-size: cover; /* Cubre toda la pantalla sin deformarse */
+    background-position: center center; /* Mantiene el centro de la foto a la vista */
+    background-attachment: scroll; /* Mejor rendimiento en celulares */
+}
         /* PANTALLA 2: REGISTRO */
         #pantalla-registro {
             background-image: url('./PAGINA.png'); /* CAMBIA ESTO */
@@ -53,15 +67,11 @@
         }
 
         /* CONTENEDORES DE FORMULARIO */
-        .contenedor-translucido {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 25px;
-            text-align: center;
-            width: 85%;
-            max-width: 400px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
+       .contenedor-translucido {
+    width: 90%; /* Usa el 90% de la pantalla en celulares */
+    max-width: 400px; /* Pero que no crezca más de 400px en computadoras */
+    padding: 20px; /* Reducimos un poco el relleno para pantallas chicas */
+}
 
         h2 { color: #003399; margin-bottom: 25px; }
         input, select {
@@ -149,6 +159,14 @@
 
     } catch (error) {
         alert("Error crítico: " + error.message);
+        
+    @media (max-width: 600px) {
+    h2 {
+        font-size: 1.2rem; /* Texto un poco más chico en celulares */
+    }
+    input, select, .btn-accion {
+        padding: 12px; /* Inputs menos altos para que entren bien en la pantalla */
+        font-size: 16px;
     }
 }
     </script>
