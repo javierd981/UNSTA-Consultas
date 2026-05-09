@@ -5,89 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNSTA - Campus Concepción</title>
     <style>
-        /* RESETEO BÁSICO */
+        /* RESETEO Y BASES RESPONSIVAS */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body, html { 
             height: 100%; 
             width: 100%; 
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden; 
-            background-color: #f0f0f0; /* Fondo neutral para la PC */
         }
 
         .pantalla {
             display: none;
             height: 100vh;
             width: 100%;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
             position: relative;
         }
 
         .activa { display: flex; flex-direction: column; align-items: center; }
 
-        /* --- PANTALLA 1: INICIO (EL EQUILIBRIO PC/CELULAR) --- */
+        /* PANTALLA 1: INICIO */
         #pantalla-inicio {
-            /* Imagen por defecto para PC */
             background-image: url('./BIENVENIDO_3.png');
-            background-size: contain; /* En PC la imagen se ve completa sin cortarse */
-            background-position: center top;
-            background-repeat: no-repeat;
         }
 
+        /* BOTÓN RESPONSIVO: Se ajusta según el ancho y alto del celular */
         .boton-invisible {
             position: absolute;
-            /* Ajuste para PC */
-            bottom: 15%; 
-            width: 380px;
-            height: 90px;
+            bottom: 12%; /* Ajusta este % si el botón está muy arriba o abajo */
+            width: 75%;
+            max-width: 380px;
+            height: 12%;
+            max-height: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 0, 0, 0); /* Cambiar a 0.3 para testear posición */
+            background: rgba(255, 255, 255, 0); /* Cambiar a 0.2 para verlo mientras testeas */
             border: none;
             cursor: pointer;
             border-radius: 50px;
-            z-index: 10;
         }
 
-        /* AJUSTES ESPECÍFICOS PARA CELULAR */
-        @media (max-width: 600px) {
-            #pantalla-inicio {
-                /* Usamos tu imagen vertical que ya se ve bien */
-                background-image: url('./BIENVENIDO_CELULAR.pgn');
-                background-size: cover; 
-                background-position: center center;
-            }
-
-            .boton-invisible {
-                /* Ajuste para que calce en el botón de la imagen vertical */
-                bottom: 8vh; 
-                width: 80%;
-                height: 12vh;
-            }
+        /* PANTALLA 2: REGISTRO */
+        #pantalla-registro {
+            background-image: url('./PAGINA.png');
+            background-color: #003399; /* Respaldo azul */
+            justify-content: center;
         }
 
-        /* --- ESTILOS DE FORMULARIOS --- */
-        #pantalla-registro { 
-            background-color: #003399; 
-            justify-content: center; 
-        }
-        
-        #pantalla-menu { 
-            background-color: #002266; 
-            justify-content: center; 
+        /* PANTALLA 3: MENÚ */
+        #pantalla-menu {
+            background-image: url('./PAGINA.png');
+            background-color: #002266;
+            justify-content: center;
         }
 
+        /* CAJAS DE FORMULARIO ADAPTABLES */
         .contenedor-login {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 20px;
             text-align: center;
-            width: 90%;
+            width: 85%;
             max-width: 400px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
-        h2 { color: #003399; margin-bottom: 20px; }
+        h2 { color: #003399; margin-bottom: 20px; font-size: 1.5rem; }
 
         input, select {
             width: 100%; 
@@ -96,6 +82,7 @@
             font-size: 16px; 
             border-radius: 10px; 
             border: 1px solid #ccc;
+            outline: none;
         }
 
         .btn-enviar {
@@ -108,6 +95,14 @@
             font-weight: bold; 
             cursor: pointer; 
             font-size: 18px;
+            margin-top: 10px;
+        }
+
+        /* AJUSTES PARA PANTALLAS MUY CHICAS */
+        @media (max-height: 600px) {
+            .contenedor-login { padding: 15px; }
+            h2 { font-size: 1.2rem; margin-bottom: 10px; }
+            input, select { padding: 10px; margin: 5px 0; }
         }
     </style>
 </head>
@@ -115,14 +110,13 @@
 
     <!-- PANTALLA 1: BIENVENIDA -->
     <div id="pantalla-inicio" class="pantalla activa">
-        <!-- Este es el botón que el usuario toca sobre la imagen -->
         <button class="boton-invisible" onclick="navegar('pantalla-registro')"></button>
     </div>
 
     <!-- PANTALLA 2: DATOS -->
     <div id="pantalla-registro" class="pantalla">
         <div class="contenedor-login">
-            <h2>Datos de Contacto</h2>
+            <h2>Datos del Alumno</h2>
             <input type="number" id="dni" placeholder="Ingresá tu DNI" inputmode="numeric">
             <input type="tel" id="cel" placeholder="Número de Celular" inputmode="tel">
             <button class="btn-enviar" onclick="navegar('pantalla-menu')">Siguiente</button>
@@ -144,12 +138,16 @@
     </div>
 
     <script>
-        // REEMPLAZÁ CON TU URL DE GOOGLE SHEETS
-        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxlOKVuOveg8RmlyodhlROfx0RWPRWKbevZGYeyJBOI48KATjf7yDTNAzVLhFyx6SQX_w/exec"; 
+        // PEGA TU URL DE GOOGLE SHEETS AQUÍ ENTRE LAS COMILLAS
+        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxlOKVuOveg8RmlyodhlROfx0RWPRWKbevZGYeyJBOI48KATjf7yDTNAzVLhFyx6SQX_w/exec";
 
         function navegar(id) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(id).classList.add('activa');
+            if(id === 'pantalla-registro') {
+                // Pequeño retraso para asegurar que el teclado suba bien
+                setTimeout(() => document.getElementById('dni').focus(), 400);
+            }
         }
 
         async function finalizarRegistro() {
@@ -165,14 +163,14 @@
 
             alert("Registrando consulta...");
 
-            // Envío a Google Sheets
+            // Envío en segundo plano para no trabar la interfaz
             fetch(URL_SCRIPT, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: JSON.stringify(datos)
             });
 
-            // Reinicio de la terminal para el próximo usuario
+            // Recarga automática para el próximo usuario
             setTimeout(() => {
                 location.reload();
             }, 500);
