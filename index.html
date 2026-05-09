@@ -28,23 +28,41 @@
         .activa { display: flex; flex-direction: column; align-items: center; }
 
         /* PANTALLA 1: INICIO */
-      #pantalla-inicio {
-    background-image: url('./BIENVENIDO_3.png'); /* Imagen para PC */
-    background-size: cover;
-    background-position: center;
+    #pantalla-inicio {
+    background-image: url('./BIENVENIDO_3.jpg');
+    background-size: contain; /* En PC usamos contain para que no se corte nada */
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0; /* Color de fondo si sobran bordes */
 }
 
-/* SI LA PANTALLA ES DE CELULAR (menos de 600px de ancho) */
+.boton-invisible {
+    position: absolute;
+    /* En PC usamos porcentajes fijos respecto a la imagen */
+    bottom: 15%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    height: 80px;
+    background: rgba(255, 0, 0, 0); /* Cambiá a 0.3 para probar el lugar */
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+/* ESTILO PARA CELULAR (Pantallas de menos de 600px) */
 @media (max-width: 600px) {
     #pantalla-inicio {
-        background-image: url('./BIENVENIDO_CELULAR.png'); /* Imagen vertical */
+        background-image: url('./BIENVENIDO_CELULAR.jpg');
+        background-size: cover; /* En celular sí usamos cover para llenar el alto */
         background-position: center center;
     }
-    
+
     .boton-invisible {
-        bottom: 8%; /* Ajustá este % para tu nueva imagen vertical */
+        /* Ajuste específico para que caiga sobre el INGRESAR del celular */
+        bottom: 8vh; 
         width: 80%;
-        height: 10%;
+        height: 12vh;
     }
 }
 
@@ -55,7 +73,7 @@
     width: 85%;
     max-width: 360px;
     height: 14vh; /* Ajusta el alto del área de clic */
-    background: rgba(255, 255, 255, 0); /* Ponlo en 0.2 para ver dónde cae mientras pruebas */
+    background: rgba(255, 0, 0, 0.4); /* Ponlo en 0.2 para ver dónde cae mientras pruebas */
     border-radius: 60px;
     border: none;
     cursor: pointer;
