@@ -28,25 +28,31 @@
         .activa { display: flex; flex-direction: column; align-items: center; }
 
         /* PANTALLA 1: INICIO */
-        #pantalla-inicio {
-            background-image: url('./BIENVENIDO_3.png');
-        }
+       #pantalla-inicio {
+    background-image: url('./BIENVENIDO_3.png');
+    background-size: cover; /* Cubre toda la pantalla */
+    background-position: center bottom; /* Prioriza que se vea la parte de abajo donde está el botón */
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Empuja el contenido hacia la base de la pantalla */
+}
 
         /* BOTÓN RESPONSIVO: Se ajusta según el ancho y alto del celular */
         .boton-invisible {
-            position: absolute;
-            bottom: 12%; /* Ajusta este % si el botón está muy arriba o abajo */
-            width: 75%;
-            max-width: 380px;
-            height: 12%;
-            max-height: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0); /* Cambiar a 0.2 para verlo mientras testeas */
-            border: none;
-            cursor: pointer;
-            border-radius: 50px;
-        }
+    position: absolute;
+    bottom: 8vh; /* Ajusta este valor (ej. 7vh o 9vh) para que calce justo sobre tu imagen */
+    width: 85%;
+    max-width: 360px;
+    height: 14vh; /* Ajusta el alto del área de clic */
+    background: rgba(255, 255, 255, 0); /* Ponlo en 0.2 para ver dónde cae mientras pruebas */
+    border-radius: 60px;
+    border: none;
+    cursor: pointer;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
 
         /* PANTALLA 2: REGISTRO */
         #pantalla-registro {
