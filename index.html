@@ -28,14 +28,24 @@
         .activa { display: flex; flex-direction: column; align-items: center; }
 
         /* PANTALLA 1: INICIO */
-       #pantalla-inicio {
-    background-image: url('./BIENVENIDO_3.png');
-    background-size: cover; /* Cubre toda la pantalla */
-    background-position: center bottom; /* Prioriza que se vea la parte de abajo donde está el botón */
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* Empuja el contenido hacia la base de la pantalla */
+      #pantalla-inicio {
+    background-image: url('./BIENVENIDO_3.png'); /* Imagen para PC */
+    background-size: cover;
+    background-position: center;
+}
+
+/* SI LA PANTALLA ES DE CELULAR (menos de 600px de ancho) */
+@media (max-width: 600px) {
+    #pantalla-inicio {
+        background-image: url('./BIENVENIDO_CELULAR.png'); /* Imagen vertical */
+        background-position: center center;
+    }
+    
+    .boton-invisible {
+        bottom: 8%; /* Ajustá este % para tu nueva imagen vertical */
+        width: 80%;
+        height: 10%;
+    }
 }
 
         /* BOTÓN RESPONSIVO: Se ajusta según el ancho y alto del celular */
