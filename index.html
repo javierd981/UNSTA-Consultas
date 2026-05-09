@@ -3,112 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNSTA CUC - Sistema</title>
+    <title>UNSTA - Campus Concepción</title>
     <style>
+        /* RESETEO Y BASES RESPONSIVAS */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        body, html { height: 100%; width: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        body, html { 
+            height: 100%; 
+            width: 100%; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden; 
+        }
 
         .pantalla {
             display: none;
             height: 100vh;
             width: 100%;
             background-size: cover;
-            background-position: center;
+            background-position: center center;
             background-repeat: no-repeat;
             position: relative;
         }
 
         .activa { display: flex; flex-direction: column; align-items: center; }
 
-        /* PANTALLA 1: BIENVENIDA */
+        /* PANTALLA 1: INICIO */
         #pantalla-inicio {
             background-image: url('./BIENVENIDO_3.png');
         }
 
-        /* AJUSTE DEL BOTÓN INVISIBLE: Usamos posicionamiento absoluto */
+        /* BOTÓN RESPONSIVO: Se ajusta según el ancho y alto del celular */
         .boton-invisible {
-        position: absolute;
-        bottom: 12%; /* Usar porcentaje ayuda a que suba o baje según el alto del cel */
-        width: 70%; /* Se adapta al ancho del dispositivo */
-        max-width: 380px;
-        height: 12%; /* El alto también se vuelve flexible */
-        left: 50%;
-        transform: translateX(-50%); /* Esto lo mantiene siempre centrado horizontalmente */
-        background: rgba(255, 255, 255, 0); 
-        border: none;
-        cursor: pointer;
-    }
-    ```
+            position: absolute;
+            bottom: 12%; /* Ajusta este % si el botón está muy arriba o abajo */
+            width: 75%;
+            max-width: 380px;
+            height: 12%;
+            max-height: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0); /* Cambiar a 0.2 para verlo mientras testeas */
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+        }
 
----
-
-### 3. Ajuste de Imágenes de Fondo
-Para que las fotos de fondo no se corten mal o se vean estiradas, asegúrate de tener estas propiedades en cada pantalla:
-
-```css
-.pantalla {
-    background-size: cover; /* Cubre toda la pantalla sin deformarse */
-    background-position: center center; /* Mantiene el centro de la foto a la vista */
-    background-attachment: scroll; /* Mejor rendimiento en celulares */
-}
         /* PANTALLA 2: REGISTRO */
         #pantalla-registro {
-            background-image: url('./PAGINA.png'); /* CAMBIA ESTO */
-            background-color: #003399; /* Respaldo */
+            background-image: url('./PAGINA.png');
+            background-color: #003399; /* Respaldo azul */
             justify-content: center;
         }
 
         /* PANTALLA 3: MENÚ */
         #pantalla-menu {
-            background-image: url('./PAGINA.png'); /* CAMBIA ESTO */
-            background-color: #002266; /* Respaldo */
+            background-image: url('./PAGINA.png');
+            background-color: #002266;
             justify-content: center;
         }
 
-        /* CONTENEDORES DE FORMULARIO */
-       .contenedor-translucido {
-    width: 90%; /* Usa el 90% de la pantalla en celulares */
-    max-width: 400px; /* Pero que no crezca más de 400px en computadoras */
-    padding: 20px; /* Reducimos un poco el relleno para pantallas chicas */
-}
-
-        h2 { color: #003399; margin-bottom: 25px; }
-        input, select {
-            width: 100%; padding: 18px; margin: 10px 0;
-            font-size: 18px; border-radius: 12px; border: 1px solid #ccc;
+        /* CAJAS DE FORMULARIO ADAPTABLES */
+        .contenedor-login {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            width: 85%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
-        .btn-accion {
-            background: #003399; color: white; padding: 18px;
-            width: 100%; border: none; border-radius: 12px;
-            font-weight: bold; cursor: pointer; font-size: 18px;
+        h2 { color: #003399; margin-bottom: 20px; font-size: 1.5rem; }
+
+        input, select {
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0;
+            font-size: 16px; 
+            border-radius: 10px; 
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .btn-enviar {
+            background: #003399; 
+            color: white; 
+            padding: 16px;
+            width: 100%; 
+            border: none; 
+            border-radius: 10px;
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        /* AJUSTES PARA PANTALLAS MUY CHICAS */
+        @media (max-height: 600px) {
+            .contenedor-login { padding: 15px; }
+            h2 { font-size: 1.2rem; margin-bottom: 10px; }
+            input, select { padding: 10px; margin: 5px 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA 1 -->
+    <!-- PANTALLA 1: BIENVENIDA -->
     <div id="pantalla-inicio" class="pantalla activa">
         <button class="boton-invisible" onclick="navegar('pantalla-registro')"></button>
     </div>
 
-    <!-- PANTALLA 2 -->
+    <!-- PANTALLA 2: DATOS -->
     <div id="pantalla-registro" class="pantalla">
-        <div class="contenedor-translucido">
-            <h2>Datos de Acceso</h2>
-            <input type="number" id="dni" placeholder="DNI" inputmode="numeric">
-            <input type="tel" id="cel" placeholder="Celular" inputmode="tel">
-            <button class="btn-accion" onclick="navegar('pantalla-menu')">Siguiente</button>
+        <div class="contenedor-login">
+            <h2>Datos del Alumno</h2>
+            <input type="number" id="dni" placeholder="Ingresá tu DNI" inputmode="numeric">
+            <input type="tel" id="cel" placeholder="Número de Celular" inputmode="tel">
+            <button class="btn-enviar" onclick="navegar('pantalla-menu')">Siguiente</button>
         </div>
     </div>
 
-    <!-- PANTALLA 3 -->
+    <!-- PANTALLA 3: MENÚ -->
     <div id="pantalla-menu" class="pantalla">
-        <div class="contenedor-translucido">
-            <h2>Seleccione Trámite</h2>
-            <select id="opcion" onchange="enviar()">
-                <option value="">-- Elegir --</option>
+        <div class="contenedor-login">
+            <h2>¿Qué información buscás?</h2>
+            <select id="opcion" onchange="finalizarRegistro()">
+                <option value="">-- Seleccionar --</option>
                 <option value="Carreras">Información de carreras</option>
                 <option value="Inscripciones">Inscripciones</option>
                 <option value="Cursos">Información de cursos</option>
@@ -118,57 +138,43 @@ Para que las fotos de fondo no se corten mal o se vean estiradas, asegúrate de 
     </div>
 
     <script>
+        // PEGA TU URL DE GOOGLE SHEETS AQUÍ ENTRE LAS COMILLAS
         const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxlOKVuOveg8RmlyodhlROfx0RWPRWKbevZGYeyJBOI48KATjf7yDTNAzVLhFyx6SQX_w/exec";
 
         function navegar(id) {
             document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
             document.getElementById(id).classList.add('activa');
             if(id === 'pantalla-registro') {
+                // Pequeño retraso para asegurar que el teclado suba bien
                 setTimeout(() => document.getElementById('dni').focus(), 400);
             }
         }
 
-       async function enviar() {
-    const sel = document.getElementById('opcion').value;
-    if(!sel) return;
+        async function finalizarRegistro() {
+            const sel = document.getElementById('opcion').value;
+            if(!sel) return;
 
-    // Los datos que recolectamos
-    const datos = {
-        dni: document.getElementById('dni').value,
-        celular: document.getElementById('cel').value,
-        opcion: sel,
-        fecha: new Date().toLocaleString()
-    };
+            const datos = {
+                dni: document.getElementById('dni').value,
+                celular: document.getElementById('cel').value,
+                opcion: sel,
+                fecha: new Date().toLocaleString()
+            };
 
-    console.log("Enviando datos a:", URL_SCRIPT);
+            alert("Registrando consulta...");
 
-    try {
-        // Usamos una técnica de "enviar y olvidar" para evitar el error de Fetch
-        fetch(URL_SCRIPT, {
-            method: 'POST',
-            mode: 'no-cors', // CRÍTICO: evita el error de CORS
-            cache: 'no-cache',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
-        });
+            // Envío en segundo plano para no trabar la interfaz
+            fetch(URL_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(datos)
+            });
 
-        alert("¡Registro enviado! Revisando base de datos...");
-        
-        // Reiniciamos la app después de un momento
-        setTimeout(() => { location.reload(); }, 1000);
-
-    } catch (error) {
-        alert("Error crítico: " + error.message);
-        
-    @media (max-width: 600px) {
-    h2 {
-        font-size: 1.2rem; /* Texto un poco más chico en celulares */
-    }
-    input, select, .btn-accion {
-        padding: 12px; /* Inputs menos altos para que entren bien en la pantalla */
-        font-size: 16px;
-    }
-}
+            // Recarga automática para el próximo usuario
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }
     </script>
 </body>
 </html>
